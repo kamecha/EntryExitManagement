@@ -11,9 +11,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -25,121 +27,23 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
-    private final static String TAG = MainActivity.class.getSimpleName();
-
-    private final static String[] PERMISSIONS = {
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION
-    };
-    private final static int REQ_PERMISSIONS = 1234;
-
-    private TextView infoView;
-    private GoogleMap map;
-
-    private FusedLocationProviderClient locationClient;
-    private LocationRequest request;
-    private LocationCallback callback;
-
+public class MainActivity extends AppCompatActivity {
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate");
         setContentView(R.layout.activity_main);
 
-        infoView = findViewById(R.id.info_view);
-        SupportMapFragment fragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map_fragment);
-        if (fragment != null) {
-            Log.d(TAG, "onCreate: getMapAsync");
-            fragment.getMapAsync(this);
-        }
+        // ViewPagerとAdapterの関連づけ
+        ViewPager2 pager = (ViewPager2) findViewById(R.id.pager);
+        TapPagerAdapter adapter = new TapPagerAdapter(this);
+        pager.setAdapter(adapter);
 
-        locationClient = LocationServices.getFusedLocationProviderClient(this);
-
-        request = LocationRequest.create();
-        request.setInterval(10000L);
-        request.setFastestInterval(5000L);
-        request.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-
-        callback = new LocationCallback() {
-            @Override
-            public void onLocationResult(@NonNull LocationResult locationResult) {
-                Log.d(TAG, "onLocationResult");
-                Location location = locationResult.getLastLocation();
-                LatLng ll = new LatLng(location.getLatitude(), location.getLongitude());
-                infoView.setText(getString(R.string.latlng_format, ll.latitude, ll.longitude));
-                if (map == null) {
-                    Log.d(TAG, "onLocationResult: map == null");
-                    return;
-                }
-                map.animateCamera(CameraUpdateFactory.newLatLng(ll));
-            }
-        };
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d(TAG, "onStart");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d(TAG, "onResume");
-        startLocationUpdate(true);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d(TAG, "onPause");
-        stopLocationUpdate();
-    }
-
-    @Override
-    protected void onStop() {
-        Log.d(TAG, "onStop");
-        super.onStop();
-    }
-
-    @Override
-    public void onMapReady(GoogleMap map) {
-        Log.d(TAG, "onMapReady");
-        map.moveCamera(CameraUpdateFactory.zoomTo(15f));
-        this.map = map;
-    }
-
-    @SuppressLint("MissingPermission")
-    private void startLocationUpdate(boolean reqPermission) {
-        Log.d(TAG, "startLocationUpdate");
-        for (String permission : PERMISSIONS) {
-            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
-                if (reqPermission) {
-                    ActivityCompat.requestPermissions(this, PERMISSIONS, REQ_PERMISSIONS);
-                } else {
-                    String text = getString(R.string.toast_requires_permission_format, permission);
-                    Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
-                }
-                return;
-            }
-        }
-        locationClient.requestLocationUpdates(request, callback, Looper.getMainLooper());
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int reqCode, @NonNull String[] permissions, @NonNull int[] grants) {
-        Log.d(TAG, "onRequestPermissionsResult");
-        if (reqCode == REQ_PERMISSIONS) {
-            startLocationUpdate(false);
-        } else {
-            super.onRequestPermissionsResult(reqCode, permissions, grants);
-        }
-    }
-
-    private void stopLocationUpdate() {
-        Log.d(TAG, "stopLocationUpdate");
-        locationClient.removeLocationUpdates(callback);
+        // TabLayoutとViewPagerの関連付け
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        new TabLayoutMediator(tabLayout, pager,
+                (tab, position) -> tab.setText("page" + position)).attach();
     }
 }
