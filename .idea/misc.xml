@@ -3,8 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/fragment_map.xml" value="0.23324275362318841" />
+        <entry key="..\:/Users/kamecha/AndroidStudioProjects/EntryExitManagement/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/kamecha/AndroidStudioProjects/EntryExitManagement/app/src/main/res/layout/fragment_map.xml" value="0.17831813576494426" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.2786458333333333" />
       </map>
     </option>
   </component>
