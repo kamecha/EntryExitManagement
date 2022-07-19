@@ -13,13 +13,20 @@ public class TapPagerAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        Fragment fragment;
-        fragment = new Map();
+        Fragment fragment = null;
+        switch (position) {
+            case 0:
+                fragment = new Map();
+                break;
+            case 1:
+                fragment = new Data();
+                break;
+        }
         return fragment;
     }
 
     @Override
     public int getItemCount() {
-        return 1;
+        return 2;
     }
 }

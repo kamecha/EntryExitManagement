@@ -43,7 +43,15 @@ public class MainActivity extends AppCompatActivity {
 
         // TabLayoutとViewPagerの関連付け
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        new TabLayoutMediator(tabLayout, pager,
-                (tab, position) -> tab.setText("page" + position)).attach();
+        new TabLayoutMediator(tabLayout, pager, (tab, position) -> {
+            switch (position) {
+                case 0:
+                    tab.setText("地図");
+                    break;
+                case 1:
+                    tab.setText("記録");
+                    break;
+            }
+        }).attach();
     }
 }
