@@ -19,8 +19,15 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.Locale;
 
+import jp.ac.titech.itpro.sdl.map.model.ViewModel;
+
 public class Map extends Fragment implements OnMapReadyCallback {
+    private ViewModel viewModel;
     private GoogleMap map;
+
+    public Map(ViewModel viewModel) {
+        this.viewModel = viewModel;
+    }
 
     @Nullable
     @Override
@@ -38,6 +45,7 @@ public class Map extends Fragment implements OnMapReadyCallback {
             LatLng location = new LatLng(tapLocation.latitude, tapLocation.longitude);
             String str = String.format(Locale.JAPAN, "%f, %f", tapLocation.latitude, tapLocation.longitude);
             Marker marker = this.map.addMarker(new MarkerOptions().position(location).title(str));
+            viewModel.registerPlace(marker);
         });
     }
 }

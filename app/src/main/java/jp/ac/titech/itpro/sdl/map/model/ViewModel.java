@@ -1,5 +1,7 @@
 package jp.ac.titech.itpro.sdl.map.model;
 
+import android.util.Log;
+
 import com.google.android.gms.maps.model.Marker;
 
 import java.sql.Time;
