@@ -14,6 +14,10 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.Locale;
 
 public class Map extends Fragment implements OnMapReadyCallback {
     private GoogleMap map;
@@ -29,8 +33,11 @@ public class Map extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
-//        map = googleMap;
-//        LatLng UCA = new LatLng(-34, 151);
-//        map.animateCamera(CameraUpdateFactory.newLatLngZoom(UCA, 14));
+        map = googleMap;
+        map.setOnMapClickListener(tapLocation -> {
+            LatLng location = new LatLng(tapLocation.latitude, tapLocation.longitude);
+            String str = String.format(Locale.JAPAN, "%f, %f", tapLocation.latitude, tapLocation.longitude);
+            Marker marker = this.map.addMarker(new MarkerOptions().position(location).title(str));
+        });
     }
 }
