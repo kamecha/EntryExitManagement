@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
         // ViewPagerとAdapterの関連づけ
         ViewPager2 pager = (ViewPager2) findViewById(R.id.pager);
+        pager.setUserInputEnabled(false);
         TapPagerAdapter adapter = new TapPagerAdapter(this);
         pager.setAdapter(adapter);
 
