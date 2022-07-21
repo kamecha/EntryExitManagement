@@ -24,7 +24,7 @@ public class TapPagerAdapter extends FragmentStateAdapter {
                 fragment = new Map(viewModel);
                 break;
             case 1:
-                fragment = new Data();
+                fragment = new Data(viewModel);
                 break;
         }
         return fragment;
