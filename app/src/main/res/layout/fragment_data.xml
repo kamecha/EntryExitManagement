@@ -5,8 +5,37 @@
     android:layout_height="match_parent"
     tools:context=".Data">
 
-    <fragment
-        android:id="@+id/data_fragment"
+<!--    <fragment-->
+<!--        android:id="@+id/data_fragment"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"/>-->
+    <TableLayout
+        android:id="@+id/dataTable"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" >
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="98dp"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="3dp"
+                android:text="場所" />
+
+            <TextView
+                android:layout_weight="1"
+                android:padding="3dp"
+                android:text="入る" />
+
+            <TextView
+                android:layout_weight="1"
+                android:padding="3dp"
+                android:text="出る" />
+        </TableRow>
+
+    </TableLayout>
 </FrameLayout>

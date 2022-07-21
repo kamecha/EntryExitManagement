@@ -1,14 +1,20 @@
 package jp.ac.titech.itpro.sdl.map.model;
 
-import java.sql.Time;
-import java.util.Map;
+import java.util.Date;
+
 
 public class EntryExit {
     public String name;
-    public Time time;
+    public Date time;
+    public enum EntryOrExit {
+        ENTRY,
+        EXIT
+    };
+    public EntryOrExit entoryOrExit;
 
-    public EntryExit(String name, Time time) {
+    public EntryExit(String name, Date time, EntryOrExit type) {
         this.name = name;
         this.time = time;
+        this.entoryOrExit = type;
     }
 }

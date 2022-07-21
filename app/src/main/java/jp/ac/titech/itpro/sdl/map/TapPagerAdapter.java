@@ -5,7 +5,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import jp.ac.titech.itpro.sdl.map.model.ViewModel;
+
 public class TapPagerAdapter extends FragmentStateAdapter {
+    private ViewModel viewModel = new ViewModel();
     public TapPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
     }
@@ -19,7 +22,7 @@ public class TapPagerAdapter extends FragmentStateAdapter {
                 fragment = new Map();
                 break;
             case 1:
-                fragment = new Data();
+                fragment = new Data(viewModel);
                 break;
         }
         return fragment;
